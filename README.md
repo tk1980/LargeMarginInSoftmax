@@ -26,7 +26,7 @@ If you find our project useful in your research, please cite it as follows:
 
 The proposed method works as a regularization for the standard softmax cross-entropy loss to promote the large-margin networks.
 So, it is noteworthy that the large margin can be embedded into neural networks, such as CNNs, by simply adding the proposed regularization without touching other components; we can use the same training procedures, such as optimizer, learning rate and training schedule.
-For the more detail, please refer to our [paper](https://).
+For the more detail, please refer to our [paper](https://staff.aist.go.jp/takumi.kobayashi/publication/2019/BMVC2019.pdf).
 
 <img width=500 src="https://user-images.githubusercontent.com/53114307/64231100-9f9d3680-cf29-11e9-83b3-402c820d2cad.png">
 
@@ -52,16 +52,16 @@ where `reg_lambda` indicates the regularization parameter.
 For example, the 13-layer network is trained on Cifar10 by using the following command
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python cifar_train.py  --dataset cifar10  --arch layer13  --config-name layer13_largemargin  --out-dir ./result/cifar10/layer13/LargeMarginInSoftmax/
+CUDA_VISIBLE_DEVICES=0 python cifar_train.py  --dataset cifar10  --data ./datasets/ --arch layer13  --config-name layer13_largemargin  --out-dir ./result/cifar10/layer13/LargeMarginInSoftmax/
 ```
 
 The VGG-16 mod network [1] on ImageNet is also trained by
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py  --dataset imagenet  --data ../datasets/imagenet12/images/  --arch vgg16bow_bn  --config-name imagenet_largemargin  --out-dir ./result/imagenet/vgg16bow_bn/LargeMarginInSoftmax/  --dist-url 'tcp://127.0.0.1:8080'  --dist-backend 'nccl'  --multiprocessing-distributed  --world-size 1  --rank 0 
+CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py  --dataset imagenet  --data ./datasets/imagenet12/images/  --arch vgg16bow_bn  --config-name imagenet_largemargin  --out-dir ./result/imagenet/vgg16bow_bn/LargeMarginInSoftmax/  --dist-url 'tcp://127.0.0.1:8080'  --dist-backend 'nccl'  --multiprocessing-distributed  --world-size 1  --rank 0
 ```
 
-Note that the imagenet dataset must be downloaded at `../datasets/imagenet12/` before the training.
+Note that the imagenet dataset must be downloaded at `./datasets/imagenet12/` before the training.
 
 ### Results
 These performance results are not the same as those reported in the paper because the methods are implemented by MatConvNet in the paper and accordingly trained in a (slightly) different training procedure.
