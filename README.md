@@ -1,6 +1,6 @@
 # Large Margin In Softmax Cross-Entropy Loss
 
-The Pytorch implementation for "[Large Margin In Softmax Cross-Entropy Loss](https://)" paper by [Takumi Kobayashi](https://sites.google.com/view/takumi-kobayashi/home).
+The Pytorch implementation for the BMVC2019 paper of "[Large Margin In Softmax Cross-Entropy Loss](https://staff.aist.go.jp/takumi.kobayashi/publication/2019/BMVC2019.pdf)" by [Takumi Kobayashi](https://staff.aist.go.jp/takumi.kobayashi/).
 
 ### Citation
 
@@ -28,7 +28,8 @@ The proposed method works as a regularization for the standard softmax cross-ent
 So, it is noteworthy that the large margin can be embedded into neural networks, such as CNNs, by simply adding the proposed regularization without touching other components; we can use the same training procedures, such as optimizer, learning rate and training schedule.
 For the more detail, please refer to our [paper](https://).
 
-<img src="https://user-images.githubusercontent.com/53114307/64231100-9f9d3680-cf29-11e9-83b3-402c820d2cad.png">
+<img width=500 src="https://user-images.githubusercontent.com/53114307/64231100-9f9d3680-cf29-11e9-83b3-402c820d2cad.png">
+
 Figure: Comparison of large-margin losses
 
 ## Usage
@@ -36,37 +37,44 @@ Figure: Comparison of large-margin losses
 ### Dependencies
 
 - [Python3](https://www.python.org/downloads/)
-- [PyTorch(1.1.0)](http://pytorch.org)
+- [PyTorch(>=1.0.0)](http://pytorch.org)
 
-### Train
+### Training
 The softmax loss with the large-margin regularization can be simply incorporated by
 
 ```python
 from networks.Layer.layers import LargeMarginInSoftmaxLoss
 criterion = LargeMarginInSoftmaxLoss(reg_lambda=0.3)
 ```
+
 where `reg_lambda` indicates the regularization parameter.
 
 For example, the 13-layer network is trained on Cifar10 by using the following command
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python cifar_train.py -a layer13 --config-name layer13_log_b128_lm  --out-dir ./result/cifar10/layer13/
+CUDA_VISIBLE_DEVICES=0 python cifar_train.py  --dataset cifar10  --arch layer13  --config-name layer13_largemargin  --out-dir ./result/cifar10/layer13/LargeMarginInSoftmax/
 ```
 
 The VGG-16 mod network [1] on ImageNet is also trained by
+
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py -a vgg16bow_bn --config-name imagenet_lm --out-dir ./result/imagenet/vgg16bow/  --dist-url 'tcp://127.0.0.1:8080' --dist-backend 'nccl' --multiprocessing-distributed --world-size 1 --rank 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py  --dataset imagenet  --data ../datasets/imagenet12/images/  --arch vgg16bow_bn  --config-name imagenet_largemargin  --out-dir ./result/imagenet/vgg16bow_bn/LargeMarginInSoftmax/  --dist-url 'tcp://127.0.0.1:8080'  --dist-backend 'nccl'  --multiprocessing-distributed  --world-size 1  --rank 0 
 ```
 
+Note that the imagenet dataset must be downloaded at `../datasets/imagenet12/` before the training.
+
 ### Results
+These performance results are not the same as those reported in the paper because the methods are implemented by MatConvNet in the paper and accordingly trained in a (slightly) different training procedure.
 
 #### Cifar-10
+
 | Network  | Loss | Top-1 Err. |
 |---|---|---|
 | 13-Layer|  SoftMax | 8.45 (+-0.27)|
 | 13-Layer|  SoftMax with Large-Margin | 7.81 (+-0.20)|
 
 #### Cifar-100
+
 | Network  | Loss | Top-1 Err. |
 |---|---|---|
 | 13-Layer|  SoftMax | 29.42 (+-0.19)|
@@ -87,10 +95,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py -a vgg16bow_bn --config-na
 | DenseNet-169 [5]|  SoftMax | 23.03 |
 | DenseNet-169 [5]|  SoftMax with Large-Margin | 22.70 |
 
-
 ## References:
 
-[1] T. Kobayashi. "Analyzing Filters Toward Efficient ConvNets." In CVPR, pages 5619-5628, 2018. [pdf](https://)
+[1] T. Kobayashi. "Analyzing Filters Toward Efficient ConvNets." In CVPR, pages 5619-5628, 2018. [pdf](https://staff.aist.go.jp/takumi.kobayashi/publication/2019/BMVC2019.pdf)
 
 [2] K. Simonyan and A. Zisserman. "Very Deep Convolutional Networks For Large-Scale Image Recognition." CoRR, abs/1409.1556, 2014.
 
