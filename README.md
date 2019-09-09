@@ -62,7 +62,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python imagenet_train.py  --dataset imagenet  --dat
 
 Note that the imagenet dataset must be downloaded at `./datasets/imagenet12/` before the training.
 
-### Results
+## Results
 These performance results are not the same as those reported in the paper because the methods are implemented by MatConvNet in the paper and accordingly trained in a (slightly) different training procedure.
 
 #### Cifar-10
@@ -94,7 +94,7 @@ These performance results are not the same as those reported in the paper becaus
 | DenseNet-169 [5]|  SoftMax | 23.03 |
 | DenseNet-169 [5]|  SoftMax with Large-Margin | 22.70 |
 
-## References:
+## References
 
 [1] T. Kobayashi. "Analyzing Filters Toward Efficient ConvNets." In CVPR, pages 5619-5628, 2018. [pdf](https://staff.aist.go.jp/takumi.kobayashi/publication/2018/CVPR2018.pdf)
 
