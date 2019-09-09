@@ -20,7 +20,6 @@ If you find our project useful in your research, please cite it as follows:
 1. [Introduction](#introduction)
 2. [Usage](#usage)
 3. [Results](#results)
-4. [Discussions](#discussions)
 
 ## Introduction
 
@@ -43,7 +42,7 @@ Figure: Comparison of large-margin losses
 The softmax loss with the large-margin regularization can be simply incorporated by
 
 ```python
-from networks.Layer.layers import LargeMarginInSoftmaxLoss
+from models.modules.myloss import LargeMarginInSoftmaxLoss
 criterion = LargeMarginInSoftmaxLoss(reg_lambda=0.3)
 ```
 
